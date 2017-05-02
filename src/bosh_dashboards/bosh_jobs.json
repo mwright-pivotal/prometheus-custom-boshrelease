@@ -27,6 +27,12 @@
       "id": "prometheus",
       "name": "Prometheus",
       "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
     }
   ],
   "annotations": {
@@ -44,18 +50,19 @@
       "includeVars": true,
       "keepTime": true,
       "tags": [
-        "cf"
+        "bosh"
       ],
-      "title": "CF",
+      "targetBlank": true,
+      "title": "BOSH",
       "type": "dashboards"
     },
     {
       "icon": "external link",
       "tags": [],
       "targetBlank": true,
-      "title": "CF Component Metrics",
+      "title": "BOSH Docs",
       "type": "link",
-      "url": "https://docs.cloudfoundry.org/loggregator/all_metrics.html"
+      "url": "http://bosh.io/docs"
     }
   ],
   "refresh": "30s",
@@ -65,481 +72,100 @@
       "height": "200px",
       "panels": [
         {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
-          "description": "Successful and failed requests received per second during the last 5 minutes.",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 7,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(avg(rate(firehose_counter_event_gorouter_total_requests_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}[5m])) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "Total",
-              "refId": "A",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(rate(firehose_counter_event_gorouter_rejected_requests_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}[5m])) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "Rejected",
-              "refId": "B",
-              "step": 4
-            }
+          "cacheTimeout": null,
+          "colorBackground": true,
+          "colorValue": false,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
           ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Rate Requests per second",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "transparent": true,
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "description": "HTTP responses per second during the last 5 minutes.",
           "editable": true,
           "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 8,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(avg(rate(firehose_counter_event_gorouter_responses_2_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}[5m])) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "2xx",
-              "refId": "B",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(rate(firehose_counter_event_gorouter_responses_3_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}[5m])) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "3xx",
-              "refId": "C",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(rate(firehose_counter_event_gorouter_responses_4_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}[5m])) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "4xx",
-              "refId": "D",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(rate(firehose_counter_event_gorouter_responses_5_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}[5m])) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "5xx",
-              "refId": "E",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Rate Responses per second",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "transparent": true,
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "200px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": true,
-          "datasource": "${DS_PROMETHEUS}",
-          "description": "Cumulative number of successful and failed requests received. Emitted every 5 seconds.",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 2,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": false,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(avg(firehose_counter_event_gorouter_total_requests_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "Total",
-              "refId": "A",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(firehose_counter_event_gorouter_rejected_requests_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "Rejected",
-              "refId": "B",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Total Requests",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "transparent": true,
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": true,
-          "datasource": "${DS_PROMETHEUS}",
-          "description": "Cumulative number of HTTP responses. Emitted every 5 seconds.",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 6,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": false,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(avg(firehose_counter_event_gorouter_responses_2_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "2xx",
-              "refId": "B",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(firehose_counter_event_gorouter_responses_3_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "3xx",
-              "refId": "C",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(firehose_counter_event_gorouter_responses_4_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "intervalFactor": 2,
-              "legendFormat": "4xx",
-              "refId": "D",
-              "step": 4
-            },
-            {
-              "expr": "sum(avg(firehose_counter_event_gorouter_responses_5_xx_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id))",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "5xx",
-              "refId": "E",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Total Responses",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "transparent": true,
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Requests & Responses",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "200px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
-          "description": "Time in milliseconds that the Gorouter took to handle requests to its application endpoints. Emitted per router request.",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 3,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
             "show": false,
-            "total": false,
-            "values": false
+            "thresholdLabels": false,
+            "thresholdMarkers": true
           },
-          "lines": true,
-          "linewidth": 2,
+          "hideTimeOverride": false,
+          "id": 1,
+          "interval": null,
           "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
+          "mappingType": 2,
+          "mappingTypes": [
             {
-              "expr": "avg(firehose_value_metric_gorouter_latency{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id)",
-              "intervalFactor": 2,
-              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_id }}",
-              "refId": "A",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "transparent": true,
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
+              "name": "value to text",
+              "value": 1
             },
             {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
+              "name": "range to text",
+              "value": 2
             }
-          ]
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "200%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "0",
+              "text": "Failing",
+              "to": "0.99"
+            },
+            {
+              "from": "1",
+              "text": "Running",
+              "to": "1"
+            }
+          ],
+          "span": 4,
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": false
+          },
+          "targets": [
+            {
+              "expr": "min(bosh_job_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"})",
+              "interval": "1m",
+              "intervalFactor": 2,
+              "refId": "A",
+              "step": 120
+            }
+          ],
+          "thresholds": "0.5,0.9",
+          "timeFrom": "1m",
+          "timeShift": null,
+          "title": "Jobs Health",
+          "transparent": true,
+          "type": "singlestat",
+          "valueFontSize": "200%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "OK",
+              "value": "1"
+            },
+            {
+              "op": "=",
+              "text": "NOK",
+              "value": "0"
+            }
+          ],
+          "valueName": "current"
         },
         {
           "aliasColors": {},
           "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "description": "Route Lookup time.",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -563,23 +189,37 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(firehose_value_metric_gorouter_route_lookup_time{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id)",
-              "interval": "",
+              "expr": "avg(bosh_job_mem_percent{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
               "intervalFactor": 2,
-              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_id }}",
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
-          "thresholds": [],
+          "thresholds": [
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(216, 200, 27, 0.27)",
+              "op": "gt",
+              "value": 60
+            },
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(234, 112, 112, 0.22)",
+              "op": "gt",
+              "value": 80
+            }
+          ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Route Lookup Time",
+          "title": "Memory Usage",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -596,45 +236,32 @@
           },
           "yaxes": [
             {
-              "format": "ns",
+              "format": "percent",
+              "label": null,
+              "logBase": 1,
+              "max": 100,
+              "min": 1,
+              "show": true
+            },
+            {
+              "format": "kbytes",
               "label": null,
               "logBase": 1,
               "max": null,
               "min": null,
               "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
             }
           ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Latency & Route Lookup Time",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "200px",
-      "panels": [
+        },
         {
           "aliasColors": {},
           "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "description": "Route registration messages received per second during the last 5 minutes.",
           "editable": true,
           "error": false,
           "fill": 1,
           "grid": {},
-          "id": 1,
+          "id": 6,
           "legend": {
             "avg": false,
             "current": false,
@@ -653,23 +280,366 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(rate(firehose_counter_event_gorouter_registry_message_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}[5m])) by(bosh_deployment, bosh_job_name, bosh_job_id)",
+              "expr": "avg(bosh_job_swap_percent{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
+              "intervalFactor": 2,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(216, 200, 27, 0.27)",
+              "op": "gt",
+              "value": 60
+            },
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(234, 112, 112, 0.22)",
+              "op": "gt",
+              "value": 80
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Swap Usage",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": null,
+              "logBase": 1,
+              "max": 100,
+              "min": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Health, Memory & Swap",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "200px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 7,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "avg(bosh_job_cpu_sys{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
               "interval": "",
               "intervalFactor": 2,
-              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_id }}",
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Rate Register Messages Received per second",
+          "title": "CPU (sys) Usage",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 8,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "avg(bosh_job_cpu_user{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
+              "intervalFactor": 2,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU (user) Usage",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 9,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "avg(bosh_job_cpu_wait{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
+              "intervalFactor": 2,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU (wait) Usage",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "CPU Usage",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "200px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 10,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "avg(bosh_job_load_avg01{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
+              "intervalFactor": 2,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Load (avg01)",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -707,12 +677,11 @@
           "aliasColors": {},
           "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "description": "Number of route registration messages received. Emitted per route-register message.",
           "editable": true,
           "error": false,
           "fill": 1,
           "grid": {},
-          "id": 9,
+          "id": 11,
           "legend": {
             "avg": false,
             "current": false,
@@ -731,23 +700,98 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(firehose_counter_event_gorouter_registry_message_total{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}) by(bosh_deployment, bosh_job_name, bosh_job_id)",
-              "interval": "",
+              "expr": "avg(bosh_job_load_avg05{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
               "intervalFactor": 2,
-              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_id }}",
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Total Register Messages Received",
+          "title": "Load (avg05)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 12,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "avg(bosh_job_load_avg15{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
+              "intervalFactor": 2,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Load (avg15)",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -786,7 +830,7 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": false,
-      "title": "Total Routes & Register Messages Received",
+      "title": "Load",
       "titleSize": "h6"
     },
     {
@@ -797,7 +841,193 @@
           "aliasColors": {},
           "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "description": "Number of routes registered. Emitted every 30 seconds.",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 2,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "avg(bosh_job_system_disk_percent{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
+              "intervalFactor": 2,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(216, 200, 27, 0.27)",
+              "op": "gt",
+              "value": 70
+            },
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(234, 112, 112, 0.22)",
+              "op": "gt",
+              "value": 90
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "System Disk Usage",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": "",
+              "logBase": 1,
+              "max": 100,
+              "min": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 3,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": false,
+            "sideWidth": null,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "avg(bosh_job_ephemeral_disk_percent{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
+              "intervalFactor": 2,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(243, 224, 27, 0.27)",
+              "op": "gt",
+              "value": 60
+            },
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(236, 29, 29, 0.22)",
+              "op": "gt",
+              "value": 80
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Ephemeral Disk Usage",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": "",
+              "logBase": 1,
+              "max": 100,
+              "min": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_PROMETHEUS}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -821,24 +1051,37 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(firehose_value_metric_gorouter_total_routes{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"})",
-              "interval": "",
+              "expr": "avg(bosh_job_persistent_disk_percent{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}) by(bosh_deployment,bosh_job_name,bosh_job_index)",
               "intervalFactor": 2,
-              "legendFormat": "Routes",
-              "metric": "",
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
-          "thresholds": [],
+          "thresholds": [
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(216, 200, 27, 0.27)",
+              "op": "gt",
+              "value": 70
+            },
+            {
+              "colorMode": "custom",
+              "line": true,
+              "lineColor": "rgba(234, 112, 112, 0.22)",
+              "op": "gt",
+              "value": 90
+            }
+          ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Total Routes Registered",
+          "title": "Persistent Disk Usage",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -855,11 +1098,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "percent",
               "label": null,
               "logBase": 1,
-              "max": null,
-              "min": 0,
+              "max": 100,
+              "min": 1,
               "show": true
             },
             {
@@ -877,15 +1120,14 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": false,
-      "title": "Dashboard Row",
+      "title": "Disk Usage",
       "titleSize": "h6"
     }
   ],
   "schemaVersion": 14,
   "style": "dark",
   "tags": [
-    "cf",
-    "router"
+    "bosh"
   ],
   "templating": {
     "list": [
@@ -899,7 +1141,27 @@
         "multi": false,
         "name": "environment",
         "options": [],
-        "query": "label_values(firehose_counter_event_gorouter_total_requests_total, environment)",
+        "query": "label_values(bosh_job_healthy, environment)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Director",
+        "multi": false,
+        "name": "bosh_director",
+        "options": [],
+        "query": "label_values(bosh_job_healthy{environment=~\"$environment\"}, bosh_name)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
@@ -919,13 +1181,53 @@
         "multi": false,
         "name": "bosh_deployment",
         "options": [],
-        "query": "label_values(firehose_counter_event_gorouter_total_requests_total{environment=~\"$environment\"}, bosh_deployment)",
+        "query": "label_values(bosh_job_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\"}, bosh_deployment)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
         "tagValuesQuery": null,
         "tags": [],
         "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Job",
+        "multi": false,
+        "name": "bosh_job_name",
+        "options": [],
+        "query": "label_values(bosh_job_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name!~\"^compilation.*\"}, bosh_job_name)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Index",
+        "multi": false,
+        "name": "bosh_job_index",
+        "options": [],
+        "query": "label_values(bosh_job_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\"}, bosh_job_index)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
         "type": "query",
         "useTags": false
       }
@@ -961,6 +1263,6 @@
     ]
   },
   "timezone": "browser",
-  "title": "CF: Router",
+  "title": "BOSH: Jobs",
   "version": 1
 }

@@ -33,6 +33,12 @@
       "id": "singlestat",
       "name": "Singlestat",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
     }
   ],
   "annotations": {
@@ -50,10 +56,19 @@
       "includeVars": true,
       "keepTime": true,
       "tags": [
-        "RabbitMQ"
+        "bosh"
       ],
-      "title": "RabbitMQ",
+      "targetBlank": true,
+      "title": "BOSH",
       "type": "dashboards"
+    },
+    {
+      "icon": "external link",
+      "tags": [],
+      "targetBlank": true,
+      "title": "BOSH Docs",
+      "type": "link",
+      "url": "http://bosh.io/docs"
     }
   ],
   "refresh": "30s",
@@ -72,6 +87,8 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "datasource": "${DS_PROMETHEUS}",
+          "editable": true,
+          "error": false,
           "format": "none",
           "gauge": {
             "maxValue": 100,
@@ -80,10 +97,10 @@
             "thresholdLabels": false,
             "thresholdMarkers": true
           },
-          "id": 10,
+          "id": 1,
           "interval": null,
           "links": [],
-          "mappingType": 1,
+          "mappingType": 2,
           "mappingTypes": [
             {
               "name": "value to text",
@@ -103,12 +120,17 @@
           "prefixFontSize": "50%",
           "rangeMaps": [
             {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
+              "from": "0",
+              "text": "Failing",
+              "to": "0.99"
+            },
+            {
+              "from": "1",
+              "text": "Running",
+              "to": "1"
             }
           ],
-          "span": 3,
+          "span": 6,
           "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -117,192 +139,93 @@
           },
           "targets": [
             {
-              "expr": "min(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_heartbeat{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=\"$bosh_job_name\", bosh_job_ip=~\"$host\"})",
+              "expr": "min(bosh_job_process_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\",bosh_job_process_name=~\"$bosh_job_process_name\"})",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 2
             }
           ],
-          "thresholds": "0.9,1",
-          "title": "HAProxy Status",
+          "thresholds": "0.5,0.9",
+          "timeFrom": "1m",
+          "timeShift": null,
+          "title": "Processes Health",
           "transparent": true,
           "type": "singlestat",
-          "valueFontSize": "80%",
+          "valueFontSize": "200%",
           "valueMaps": [
             {
               "op": "=",
-              "text": "N/A",
-              "value": "null"
+              "text": "OK",
+              "value": "1"
             },
             {
               "op": "=",
               "text": "NOK",
               "value": "0"
-            },
-            {
-              "op": "=",
-              "text": "OK",
-              "value": "1"
             }
           ],
           "valueName": "current"
         },
         {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+          "columns": [
+            {
+              "text": "Count",
+              "value": "count"
+            }
           ],
           "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "id": 2,
-          "interval": null,
+          "editable": true,
+          "error": false,
+          "fontSize": "100%",
+          "hideTimeOverride": false,
+          "id": 6,
           "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "span": 3,
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
+          "pageSize": null,
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": null,
+            "desc": false
           },
-          "targets": [
-            {
-              "expr": "avg(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_health_connections{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=\"$bosh_job_name\",bosh_job_ip=~\"$host\"})",
-              "intervalFactor": 2,
-              "refId": "A",
-              "step": 60
-            }
-          ],
-          "thresholds": "",
-          "title": "Health Connections",
-          "transparent": true,
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "${DS_PROMETHEUS}",
-          "fill": 1,
-          "id": 9,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "rightSide": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
           "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
+          "styles": [
             {
-              "expr": "avg(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_backend_ctime_amqp{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=\"$bosh_job_name\", bosh_job_ip=~\"$host\"})",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "ctime",
-              "refId": "A",
-              "step": 4
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 0,
+              "pattern": "/.*/",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
             }
           ],
-          "thresholds": [],
+          "targets": [
+            {
+              "expr": "avg(bosh_job_process_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\",bosh_job_process_name=~\"$bosh_job_process_name\"}) by(bosh_deployment, bosh_job_name, bosh_job_index, bosh_job_process_name) < 1",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{ bosh_deployment }}/{{ bosh_job_name }}/{{ bosh_job_index }}: {{ bosh_job_process_name }}",
+              "refId": "A",
+              "step": 5
+            }
+          ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Backend Ctime",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
+          "title": "Failing Processes",
+          "transform": "timeseries_aggregations",
           "transparent": true,
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "s",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
+          "type": "table"
         }
       ],
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": false,
-      "title": "Dashboard Row",
+      "title": "Health",
       "titleSize": "h6"
     },
     {
@@ -313,24 +236,24 @@
           "aliasColors": {},
           "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "decimals": 0,
+          "editable": true,
+          "error": false,
           "fill": 1,
-          "id": 8,
+          "grid": {},
+          "id": 2,
           "legend": {
-            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
             "min": false,
-            "rightSide": false,
             "show": false,
             "total": false,
             "values": false
           },
           "lines": true,
-          "linewidth": 1,
+          "linewidth": 2,
           "links": [],
-          "nullPointMode": "null",
+          "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
@@ -341,21 +264,24 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_backend_retries_amqp{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=\"$bosh_job_name\", bosh_job_ip=~\"$host\"})",
+              "expr": "avg(bosh_job_process_cpu_total{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\",bosh_job_process_name=~\"$bosh_job_process_name\"}) by(bosh_deployment, bosh_job_name,  bosh_job_index, bosh_job_process_name)",
+              "hide": false,
               "intervalFactor": 2,
-              "legendFormat": "Retries",
+              "legendFormat": "{{bosh_deployment}}/{{bosh_job_name}}/{{bosh_job_index}}/{{bosh_job_process_name}}",
+              "metric": "bosh_job_process_cpu_total",
               "refId": "A",
-              "step": 4
+              "step": 10
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Backend Retries",
+          "title": "CPU Usage",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
             "sort": 0,
-            "value_type": "individual"
+            "value_type": "cumulative"
           },
           "transparent": true,
           "type": "graph",
@@ -367,8 +293,8 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "percent",
+              "label": "",
               "logBase": 1,
               "max": null,
               "min": "0",
@@ -388,24 +314,24 @@
           "aliasColors": {},
           "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "decimals": 0,
+          "editable": true,
+          "error": false,
           "fill": 1,
-          "id": 12,
+          "grid": {},
+          "id": 3,
           "legend": {
-            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
             "min": false,
-            "rightSide": false,
             "show": false,
             "total": false,
             "values": false
           },
           "lines": true,
-          "linewidth": 1,
+          "linewidth": 2,
           "links": [],
-          "nullPointMode": "null",
+          "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
@@ -416,21 +342,22 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_backend_qsize_amqp{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=\"$bosh_job_name\", bosh_job_ip=~\"$host\"})",
+              "expr": "avg(bosh_job_process_mem_percent{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\",bosh_job_process_name=~\"$bosh_job_process_name\"}) by(bosh_deployment, bosh_job_name, bosh_job_index, bosh_job_process_name)",
               "intervalFactor": 2,
-              "legendFormat": "qsize",
+              "legendFormat": "{{bosh_deployment}}/{{bosh_job_name}}/{{bosh_job_index}}/{{bosh_job_process_name}}",
               "refId": "A",
-              "step": 4
+              "step": 10
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Backend Qsize",
+          "title": "Memory Usage",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
             "sort": 0,
-            "value_type": "individual"
+            "value_type": "cumulative"
           },
           "transparent": true,
           "type": "graph",
@@ -442,8 +369,8 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "percent",
+              "label": "",
               "logBase": 1,
               "max": null,
               "min": "0",
@@ -464,14 +391,14 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": false,
-      "title": "Dashboard Row",
+      "title": "CPU & Memory Usage",
       "titleSize": "h6"
     }
   ],
   "schemaVersion": 14,
   "style": "dark",
   "tags": [
-    "RabbitMQ"
+    "bosh"
   ],
   "templating": {
     "list": [
@@ -485,7 +412,27 @@
         "multi": false,
         "name": "environment",
         "options": [],
-        "query": "label_values(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_heartbeat, environment)",
+        "query": "label_values(bosh_job_process_healthy, environment)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Director",
+        "multi": false,
+        "name": "bosh_director",
+        "options": [],
+        "query": "label_values(bosh_job_process_healthy{environment=~\"$environment\"}, bosh_name)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
@@ -505,13 +452,13 @@
         "multi": false,
         "name": "bosh_deployment",
         "options": [],
-        "query": "label_values(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_heartbeat{environment=~\"$environment\"}, bosh_deployment)",
+        "query": "label_values(bosh_job_process_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\"}, bosh_deployment)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
-        "tagsQuery": "",
+        "tagsQuery": "bosh_job_healthy",
         "type": "query",
         "useTags": false
       },
@@ -520,12 +467,32 @@
         "current": {},
         "datasource": "${DS_PROMETHEUS}",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "Job",
         "multi": false,
         "name": "bosh_job_name",
         "options": [],
-        "query": "label_values(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_heartbeat{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\"}, bosh_job_name)",
+        "query": "label_values(bosh_job_process_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\"}, bosh_job_name)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tags": [],
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Index",
+        "multi": false,
+        "name": "bosh_job_index",
+        "options": [],
+        "query": "label_values(bosh_job_process_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\"}, bosh_job_index)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
@@ -540,18 +507,18 @@
         "current": {},
         "datasource": "${DS_PROMETHEUS}",
         "hide": 0,
-        "includeAll": false,
-        "label": "Host",
+        "includeAll": true,
+        "label": "Process",
         "multi": false,
-        "name": "host",
+        "name": "bosh_job_process_name",
         "options": [],
-        "query": "label_values(firehose_value_metric_p_rabbitmq_p_rabbitmq_haproxy_heartbeat{environment=~\"$environment\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\"}, bosh_job_ip)",
+        "query": "label_values(bosh_job_process_healthy{environment=~\"$environment\",bosh_name=~\"$bosh_director\",bosh_deployment=~\"$bosh_deployment\",bosh_job_name=~\"$bosh_job_name\",bosh_job_index=~\"$bosh_job_index\"}, bosh_job_process_name)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
-        "tagValuesQuery": "",
+        "tagValuesQuery": null,
         "tags": [],
-        "tagsQuery": "",
+        "tagsQuery": null,
         "type": "query",
         "useTags": false
       }
@@ -587,6 +554,6 @@
     ]
   },
   "timezone": "browser",
-  "title": "P-RabbitMQ: HAProxy",
+  "title": "BOSH: Processes",
   "version": 1
 }
