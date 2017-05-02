@@ -1,0 +1,7 @@
+---
+builds:
+  302df1358c2c30c7a39a8ad1d9d5570d95b33553:
+    version: 302df1358c2c30c7a39a8ad1d9d5570d95b33553
+    sha1: ba0450ea88e3fc22f5448761e230a1132c39bf0f
+    blobstore_id: d82144fa-93a4-4c3d-a1a6-b4a6e2bd3c7b
+format-version: '2'
