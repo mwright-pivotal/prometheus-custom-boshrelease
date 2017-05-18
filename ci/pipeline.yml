@@ -1,0 +1,42 @@
+groups: []
+
+resources:
+- name: prometheus-custom-git
+  type: git
+  source:
+    uri: https://github.com/dlapiduz/prometheus-custom-boshrelease.git
+    branch: master
+    private_key: {{prometheus-custom-private-key}}
+- name: prometheus-custom-release
+  type: github-release
+  source:
+    user: dlapiduz
+    repository: prometheus-boshrelease
+    access_token: {{github_token}}
+- name: prometheus-release
+  type: github-release
+  source:
+    user: cloudfoundry-community
+    repository: prometheus-boshrelease
+    access_token: {{github_token}}
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:dlapiduz/prometheus-custom-boshrelease.git
+    file: version
+    branch: master
+    private_key: {{prometheus-custom-private-key}}
+
+jobs:
+- name: create-release
+  plan:
+  - aggregate:
+    - get: version
+      params: {bump: minor}
+    - get: prometheus-custom-git
+    - get: prometheus-release
+  - task: create-release
+    file: prometheus-custom-git/ci/tasks/create-release.yml
+    params:
+

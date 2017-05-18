@@ -1,0 +1,16 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: dlapiduz/c0-worker
+
+inputs:
+- name: prometheus-custom-git
+- name: prometheus-release
+
+params: {}
+
+run:
+  path: prometheus-custom-git/ci/tasks/create-release.sh
