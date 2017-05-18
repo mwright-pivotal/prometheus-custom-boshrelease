@@ -8,9 +8,12 @@ image_resource:
 
 inputs:
 - name: prometheus-custom-git
-- name: prometheus-release
+- name: prometheus-release-git
 
 params: {}
 
 run:
   path: prometheus-custom-git/ci/tasks/create-release.sh
+
+outputs:
+- name: pushme
