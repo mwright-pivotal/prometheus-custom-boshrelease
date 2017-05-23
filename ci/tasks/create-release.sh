@@ -2,6 +2,8 @@
 
 set -e
 
+VERSION=$(cat version/version)
+
 pushd prometheus-custom-git
 ./extract.sh ../prometheus-release-git
 
