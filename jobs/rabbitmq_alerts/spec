@@ -1,9 +1,12 @@
 ---
 name: rabbitmq_alerts
 
-packages:
-  - rabbitmq_alerts
+packages: []
 
-templates: {}
+templates:
+  rabbitmq.alerts: rabbitmq.alerts
 
-properties: {}
+properties:
+  rabbitmq_alerts.server_down.evaluation_time:
+    description: "Server down alert evaluation time"
+    default: 5m
