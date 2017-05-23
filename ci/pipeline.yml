@@ -4,21 +4,20 @@ resources:
 - name: prometheus-custom-git
   type: git
   source:
-    uri: https://github.com/dlapiduz/prometheus-custom-boshrelease.git
+    uri: git@github.com:dlapiduz/prometheus-custom-boshrelease.git
     branch: master
     private_key: {{prometheus-custom-private-key}}
-- name: prometheus-custom-release
-  type: github-release
+# - name: prometheus-custom-release
+#   type: github-release
+#   source:
+#     user: dlapiduz
+#     repository: prometheus-boshrelease
+#     access_token: {{github_token}}
+- name: prometheus-release-git
+  type: git
   source:
-    user: dlapiduz
-    repository: prometheus-boshrelease
-    access_token: {{github_token}}
-- name: prometheus-release
-  type: github-release
-  source:
-    user: cloudfoundry-community
-    repository: prometheus-boshrelease
-    access_token: {{github_token}}
+    uri: https://github.com/cloudfoundry-community/prometheus-boshrelease
+    branch: master
 - name: version
   type: semver
   source:
@@ -26,6 +25,7 @@ resources:
     uri: git@github.com:dlapiduz/prometheus-custom-boshrelease.git
     file: version
     branch: master
+    initial_version: 0.0.1
     private_key: {{prometheus-custom-private-key}}
 
 jobs:
@@ -35,8 +35,13 @@ jobs:
     - get: version
       params: {bump: minor}
     - get: prometheus-custom-git
-    - get: prometheus-release
+    - get: prometheus-release-git
   - task: create-release
     file: prometheus-custom-git/ci/tasks/create-release.yml
     params:
-
+      AWS_ACCESS_KEY: {{s3-access-key}}
+      AWS_SECRET_KEY: {{s3-secret-access-key}}
+  - put: prometheus-custom-git
+    params: {repository: pushme}
+  - put: version
+    params: {file: version/version}

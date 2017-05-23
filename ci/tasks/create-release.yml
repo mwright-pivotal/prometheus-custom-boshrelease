@@ -9,8 +9,11 @@ image_resource:
 inputs:
 - name: prometheus-custom-git
 - name: prometheus-release-git
+- name: version
 
-params: {}
+params:
+  AWS_ACCESS_KEY:
+  AWS_SECRET_KEY:
 
 run:
   path: prometheus-custom-git/ci/tasks/create-release.sh
