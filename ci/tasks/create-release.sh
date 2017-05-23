@@ -22,6 +22,10 @@ bosh -n create release --final --with-tarball --version "${VERSION}"
 
 git add . && git commit -m "New release"
 
+mkdir -p artifacts
+echo "v${VERSION}"                           > tag
+echo "Prometheus Customizations v${VERSION}" > name
+cp releases/*/*-${VERSION}.tgz artifacts
 popd
 
 cp -r prometheus-custom-git/. pushme
