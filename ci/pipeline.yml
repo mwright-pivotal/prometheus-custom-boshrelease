@@ -7,12 +7,12 @@ resources:
     uri: git@github.com:dlapiduz/prometheus-custom-boshrelease.git
     branch: master
     private_key: {{prometheus-custom-private-key}}
-# - name: prometheus-custom-release
-#   type: github-release
-#   source:
-#     user: dlapiduz
-#     repository: prometheus-boshrelease
-#     access_token: {{github_token}}
+- name: prometheus-custom-release
+  type: github-release
+  source:
+    user: dlapiduz
+    repository: prometheus-custom-boshrelease
+    access_token: {{github_token}}
 - name: prometheus-release-git
   type: git
   source:
@@ -25,7 +25,7 @@ resources:
     uri: git@github.com:dlapiduz/prometheus-custom-boshrelease.git
     file: version
     branch: master
-    initial_version: 0.0.1
+    initial_version: 0.4.0
     private_key: {{prometheus-custom-private-key}}
 
 jobs:
@@ -45,3 +45,8 @@ jobs:
     params: {repository: pushme}
   - put: version
     params: {file: version/version}
+  - put: prometheus-custom-release
+    params:
+      name: pushme/name
+      tag: pushme/tag
+      globs: [pushme/artifacts/*]
