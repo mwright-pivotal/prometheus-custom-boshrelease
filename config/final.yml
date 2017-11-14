@@ -1,6 +1,6 @@
 ---
 blobstore:
-  provider: s3
+  provider: local
   options:
-    bucket_name: prometheus-custom-boshrelease
+    blobstore_path: /tmp/prometheus-custom-blobs
 final_name: prometheus-custom
